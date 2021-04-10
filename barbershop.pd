@@ -1,36 +1,36 @@
-#N canvas 592 116 548 644 12;
-#X obj 236 223 sound_saver;
-#X obj 221 174 adc~ 1;
-#X obj 273 71 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#N canvas 603 116 507 565 12;
+#X obj 207 208 sound_saver;
+#X obj 192 159 adc~ 1;
+#X obj 244 56 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#X obj 236 280 tgl 20 0 empty empty empty 17 7 0 20 -257985 -1 -1 0
+#X obj 207 265 tgl 20 0 empty empty empty 17 7 0 20 -257985 -1 -1 0
 1;
-#X obj 273 280 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 244 265 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X floatatom 310 280 5 0 0 0 - - -;
-#X obj 273 342 sound_player;
-#X obj 236 424 chord_maker;
-#X msg 98 302 0;
-#X msg 87 325 5;
-#X msg 82 351 7;
-#X msg 131 274 symbol maj;
-#X msg 140 297 symbol min;
-#X msg 153 320 symbol dom7;
-#X obj 236 507 dac~;
-#X obj 236 474 *~ 0.4;
-#X obj 78 188 loadbang;
-#X msg 317 119 2;
-#X msg 328 145 4;
-#X msg 396 142 500;
-#X msg 395 169 1000;
-#X obj 461 116 vsl 15 128 100 1200 0 0 empty empty empty 0 -9 0 10
+#X floatatom 281 265 5 0 0 0 - - -;
+#X obj 244 327 sound_player;
+#X obj 207 409 chord_maker;
+#X msg 69 287 0;
+#X msg 58 310 5;
+#X msg 53 336 7;
+#X msg 102 259 symbol maj;
+#X msg 111 282 symbol min;
+#X msg 124 305 symbol dom7;
+#X obj 207 492 dac~;
+#X obj 207 459 *~ 0.4;
+#X obj 49 173 loadbang;
+#X msg 288 104 2;
+#X msg 299 130 4;
+#X msg 367 127 500;
+#X msg 366 154 1000;
+#X obj 432 101 vsl 15 128 100 1200 0 0 empty empty empty 0 -9 0 10
 -262144 -1 -1 0 1;
-#X floatatom 461 262 5 0 0 0 - - -;
-#X text 317 91 samples;
-#X text 391 115 duration;
-#X text 254 44 ON/OFF;
-#X obj 385 368 sel 0;
-#X obj 385 311 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X floatatom 432 247 5 0 0 0 - - -;
+#X text 288 76 samples;
+#X text 362 100 duration;
+#X text 225 29 ON/OFF;
+#X obj 356 353 sel 0;
+#X obj 356 296 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X connect 0 0 3 0;
 #X connect 0 1 4 0;

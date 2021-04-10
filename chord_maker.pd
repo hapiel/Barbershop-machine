@@ -1,4 +1,4 @@
-#N canvas 1815 57 949 689 12;
+#N canvas 205 124 949 689 12;
 #X floatatom 730 382 5 0 0 0 - - -;
 #X text 530 25 incoming sound;
 #X text 738 409 root note;
@@ -9,7 +9,7 @@
 #X text 318 103 chord type;
 #X obj 273 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 301 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 306 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 441 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -57,18 +57,18 @@
 #X obj 368 513 random_octave;
 #X obj 301 480 random_octave;
 #X obj 243 504 random_octave;
-#X obj 370 298 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 374 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 335 298 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 340 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X msg 322 368 0 3 6 0;
 #X msg 319 339 0 4 8 0;
 #X obj 273 261 sel maj min aug dim maj7 dom7 aug7 min7;
-#X obj 404 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 408 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X msg 394 369 0 4 7 11;
 #X msg 396 342 0 4 7 12;
-#X obj 475 296 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 475 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 509 297 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
