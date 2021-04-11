@@ -1,4 +1,4 @@
-#N canvas 603 116 507 565 12;
+#N canvas 987 46 490 591 12;
 #X obj 207 208 sound_saver;
 #X obj 192 159 adc~ 1;
 #X obj 244 56 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
@@ -23,8 +23,8 @@
 #X msg 299 130 4;
 #X msg 367 127 500;
 #X msg 366 154 1000;
-#X obj 432 101 vsl 15 128 100 1200 0 0 empty empty empty 0 -9 0 10
--262144 -1 -1 0 1;
+#X obj 432 94 vsl 15 128 100 1200 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 3900 1;
 #X floatatom 432 247 5 0 0 0 - - -;
 #X text 288 76 samples;
 #X text 362 100 duration;
@@ -32,6 +32,16 @@
 #X obj 356 353 sel 0;
 #X obj 356 296 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
+#N canvas 0 50 450 300 to_python 0;
+#X obj 243 117 r f_root;
+#X obj 243 169 outlet;
+#X obj 123 118 r f_current_py;
+#X obj 127 165 outlet;
+#X connect 0 0 1 0;
+#X connect 2 0 3 0;
+#X restore 350 457 pd to_python;
+#X floatatom 350 499 5 0 0 0 - - -;
+#X floatatom 431 500 5 0 0 0 - - -;
 #X connect 0 0 3 0;
 #X connect 0 1 4 0;
 #X connect 0 2 5 0;
@@ -60,3 +70,5 @@
 #X connect 21 0 22 0;
 #X connect 26 0 7 4;
 #X connect 27 0 26 0;
+#X connect 28 0 29 0;
+#X connect 28 1 30 0;
