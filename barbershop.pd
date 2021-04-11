@@ -13,7 +13,7 @@
 #X msg 69 287 0;
 #X msg 58 310 5;
 #X msg 53 336 7;
-#X msg 102 259 symbol maj;
+#X msg 103 259 symbol maj;
 #X msg 111 282 symbol min;
 #X msg 124 305 symbol dom7;
 #X obj 207 492 dac~;
