@@ -66,7 +66,7 @@ def parseRootNote(note):
   chordStructure = random.choice(simpleChords)
   currentChord = [c + note for c in chordStructure]
   lastMidiNote = note
-  sendToPd(currentChord) #change from currentChord to chordStructure if relative structure is needed
+  sendToPd(chordStructure) #change from currentChord to chordStructure if relative structure is needed
   previousChord = currentChord
 
 def parseMidiNote(note):
@@ -76,23 +76,25 @@ def parseMidiNote(note):
   if rootnote == 0:
     parseRootNote(note)
   else:
-    chordStructure = random.choice(allChords)
-    #Maak omkering
-    for x in range(len(chordStructure)):
-      if chordStructure[x] != 0 and random.random() < 0.1:
-        print(chordStructure[x])
-        if chordStructure[x] < 0:
-          chordStructure[x] += 12
-        else:
-          chordStructure[x] -= 12
-        print(chordStructure)
-    
-    currentChord = [c + note for c in chordStructure]
+    currentChord, chordStructure = buildChord(note)
     while (abs(min(currentChord)-min(previousChord)) > max(12,abs(lastMidiNote-note))):
-      currentChord = [c + note for c in chordStructure]
-    sendToPd(currentChord) #change from currentChord to chordStructure if relative structure is needed
+      currentChord, chordStructure = buildChord(note)
+    sendToPd(chordStructure)
     lastMidiNote = note
     previousChord = currentChord
+
+def buildChord(note):
+  chordStructure = random.choice(allChords)
+  #Maak omkering
+  for x in range(len(chordStructure)):
+    if chordStructure[x] != 0 and random.random() < 0.1:
+      if chordStructure[x] < 0:
+        chordStructure[x] += 12
+      else:
+        chordStructure[x] -= 12
+  
+  chord = [c + note for c in chordStructure]
+  return chord, chordStructure
 
 
 if __name__ == "__main__":
