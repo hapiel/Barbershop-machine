@@ -14,18 +14,26 @@ from pythonosc import udp_client
 rootnote = 0
 previousChord = [0,0,0]
 
-majorChord = [4,7,12]
-minorChord = [3,7,12]
-augChord = [4,8,12]
-dimChord = [3,6,12]
-maj7Chord = [4,7,11]
-min7Chord = [3,7,10]
-dom7Chord = [4,7,10]
-dim7Chord = [3,6,9]
-halfDim7Chord = [3,6,10]
-minMaj7Chord = [3,7,11]
-augMaj7Chord = [4,8,11]
-added6Chord = [4,9,12]
+majorChord = [3.86,7.02,12]
+maj7Chord = [3.86,7.02,10.88]
+min7Chord = [2.94,7.02,9.69]
+dom7Chord = [3.86,7.02,9.69]
+dim7Chord = [2.94,6.12,8.84]
+halfDim7Chord = [2.94,6.12,9.69]
+added6Chord = [3.86,8.84,12]
+
+# majorChord = [4,7,12]
+# minorChord = [3,7,12]
+# augChord = [4,8,12]
+# dimChord = [3,6,12]
+# maj7Chord = [4,7,11]
+# min7Chord = [3,7,10]
+# dom7Chord = [4,7,10]
+# dim7Chord = [3,6,9]
+# halfDim7Chord = [3,6,10]
+# minMaj7Chord = [3,7,11]
+# augMaj7Chord = [4,8,11]
+# added6Chord = [4,9,12]
 
 
 def print_volume_handler(unused_addr, args, volume):
@@ -90,10 +98,12 @@ def generateChord():
     elif position == 7 and x < 0.9:
       rootchange = 5
       chord = dom7Chord
-    elif x < 0.6:
+    elif x < 0.5:
       rootchange, chord = random.choice([(1,dom7Chord),(2,dom7Chord),(5,dom7Chord),(6,dom7Chord),(9,dom7Chord)])
+    elif x < 0.8:
+      rootchange, chord = random.choice([(1,majorChord),(2,majorChord),(4,majorChord),(5,majorChord),(7,majorChord),(8,majorChord),(11,majorChord)])
     else:
-      rootchange, chord = random.choice([(0,dim7Chord),(9,halfDim7Chord),(1,majorChord),(2,majorChord),(4,majorChord),(5,majorChord),(7,majorChord),(8,majorChord),(11,majorChord)])
+      rootchange, chord = random.choice([(0,dim7Chord),(9,halfDim7Chord)])
   elif previousChord == majorChord:
     print("maj\n")
     if x < 0.7:
