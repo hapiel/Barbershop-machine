@@ -15,6 +15,7 @@ rootnote = 0
 previousChord = [0,0,0]
 
 majorChord = [3.86,7.02,12]
+minorChord = [3.16,7.02,12]
 maj7Chord = [3.86,7.02,10.88]
 min7Chord = [2.94,7.02,9.69]
 dom7Chord = [3.86,7.02,9.69]
@@ -91,31 +92,43 @@ def generateChord():
   if previousChord == dom7Chord:
     print("dom7\n")
     #After multiple dom7 chords, try to go to back to a major chord
-    if position == 2 and x < 0.9:
+    chord = dom7Chord
+    if x < 0.9:
+      # if position == 2 or position == 9:
       rootchange = 5
-      chord = dom7Chord
-    elif position == 7 and x < 0.5:
-      rootchange = 5
-      chord = majorChord
-    elif position == 7 and x < 0.9:
-      rootchange = 5
-      chord = dom7Chord
-    elif x < 0.5:
-      rootchange, chord = random.choice([(1,dom7Chord),(2,dom7Chord),(5,dom7Chord),(6,dom7Chord),(9,dom7Chord)])
-    elif x < 0.8:
-      rootchange, chord = random.choice([(1,majorChord),(2,majorChord),(4,majorChord),(5,majorChord),(7,majorChord),(8,majorChord),(11,majorChord)])
+      if position == 4 and x < 0.45:
+        chord = minorChord
+      elif position == 7:
+        chord = majorChord
+    elif x < 0.95:
+      rootchange = 0
+      chord = dim7Chord
     else:
-      rootchange, chord = random.choice([(0,dim7Chord),(9,halfDim7Chord)])
+      rootchange, chord = random.choice([(1,dom7Chord),(2,dom7Chord),(5,dom7Chord),(6,dom7Chord),(9,dom7Chord),(1,majorChord),(2,majorChord),(4,majorChord),(5,majorChord),(7,majorChord),(8,majorChord),(11,majorChord),(9,halfDim7Chord)])
   elif previousChord == majorChord:
     print("maj\n")
-    if x < 0.7:
-      rootchange = 2
-      chord = dom7Chord
-    elif x < 0.9:
-      rootchange = 5
-      chord = dom7Chord
+    
+    chord = dom7Chord
+    if position == 0:
+      if x < 0.25:
+        rootchange = 4
+      elif x < 0.5:
+        rootchange = 9
+      elif x < 0.75:
+        rootchange = 2
+      elif x < 0.8:
+        rootchange = 0
+        chord = added6Chord
+      elif x < 0.90:
+        rootchange = 0
+        chord = maj7Chord
+      elif x < 0.95:
+        rootchange = 9
+        chord = minorChord
+      else:
+        rootchange, chord = random.choice([(5,dom7Chord),(6,dom7Chord),(7,dom7Chord),(9,min7Chord)])
     else: 
-      rootchange, chord = random.choice([(6,dom7Chord),(7,dom7Chord),(0,maj7Chord),(9,min7Chord),(0,added6Chord)])
+      rootchange, chord = random.choice([(2,dom7Chord),(4,dom7Chord),(5,dom7Chord),(6,dom7Chord),(7,dom7Chord),(9,dom7Chord),(0,added6Chord),(0,maj7Chord),(9,min7Chord)])
   elif previousChord == maj7Chord:
     print("maj7\n")
     rootchange = 0
@@ -135,6 +148,10 @@ def generateChord():
   elif previousChord == added6Chord:
     print("maj6\n")
     rootchange = 0
+    chord = majorChord
+  elif previousChord == minorChord:
+    print("min\n")
+    rootchange = 3
     chord = majorChord
   return rootchange, chord
 
