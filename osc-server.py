@@ -65,8 +65,10 @@ def parseInput(input_type, input):
     parseBeat(input)
 
 def parseRootNote(note):
-  global rootnote 
+  global rootnote
+  global previousChord
   rootnote = note
+  previousChord = [0,0,0]
 
 def parseBeat(beat):
   global rootnote
