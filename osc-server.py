@@ -12,22 +12,20 @@ from pythonosc import osc_server
 from pythonosc import udp_client
 
 rootnote = 0
-previousMidiNote = 0
-previousChord = [0,0,0,0]
+previousChord = [0,0,0]
 
-majorChords = [[0,4,7,12],[-4,0,3,8],[-7,-3,0,5],[-12,-8,-5,0]]
-minorChords = [[0,3,7,12],[-3,0,4,9],[-7,-4,0,5],[-12,-9,-5,0]]
-augChords = [[0,4,8,12],[-4,0,4,8],[-8,-4,0,4],[-12,-8,-4,0]]
-dimChords = [[0,3,6,12],[-3,0,3,9],[-6,-3,0,6],[-12,-9,-6,0]]
-maj7Chords = [[0,4,7,11],[-4,0,3,7],[-7,-3,0,4],[-11,-7,-4,0]]
-min7Chords = [[0,3,7,10],[-3,0,4,7],[-7,-4,0,3],[-10,-7,-3,0]]
-dom7Chords = [[0,4,7,10],[-4,0,3,6],[-7,-3,0,3],[-10,-6,-3,0]]
-dim7Chords = [[0,3,6,9],[-3,0,3,6],[-6,-3,0,3],[-9,-6,-3,0]]
-halfdim7Chords = [[0,3,6,10],[-3,0,3,7],[-6,-3,0,4],[-10,-7,-4,0]]
-minmaj7Chords = [[0,3,7,11],[-3,0,4,7],[-7,-4,0,3],[-11,-7,-3,0]]
-augmaj7Chords = [[0,4,8,11],[-4,0,4,7],[-8,-4,0,3],[-11,-7,-3,0]]
-simpleChords = majorChords + minorChords
-allChords = majorChords + minorChords + augChords + dimChords + maj7Chords + min7Chords + dom7Chords + dim7Chords + halfdim7Chords + minmaj7Chords + augmaj7Chords
+majorChord = [4,7,12]
+minorChord = [3,7,12]
+augChord = [4,8,12]
+dimChord = [3,6,12]
+maj7Chord = [4,7,11]
+min7Chord = [3,7,10]
+dom7Chord = [4,7,10]
+dim7Chord = [3,6,9]
+halfDim7Chord = [3,6,10]
+minMaj7Chord = [3,7,11]
+augMaj7Chord = [4,8,11]
+added6Chord = [4,9,12]
 
 
 def print_volume_handler(unused_addr, args, volume):
@@ -38,7 +36,7 @@ def print_compute_handler(unused_addr, args, volume):
     print("[{0}] ~ {1}".format(args[0], args[1](volume)))
   except ValueError: pass
 
-def sendToPd(chord):
+def sendToPd(root,chord):
   parser = argparse.ArgumentParser()
   parser.add_argument("--ip",
       default="127.0.0.1", help="The ip to listen on")
@@ -47,55 +45,86 @@ def sendToPd(chord):
   args = parser.parse_args()
 
   client = udp_client.SimpleUDPClient(args.ip, args.port)
+  client.send_message("/root", root)
   client.send_message("/note1", chord[0])
   client.send_message("/note2", chord[1])
   client.send_message("/note3", chord[2])
-  client.send_message("/note4", chord[3])
 
-def parseInput(note_type, note):
-  if note_type == "/midinote":
-    parseMidiNote(note)
-  elif note_type == "/rootnote":
-    parseRootNote(note)
+def parseInput(input_type, input):
+  if input_type == "/rootnote":
+    parseRootNote(input)
+  elif input_type == "/beat":
+    parseBeat(input)
 
 def parseRootNote(note):
   global rootnote 
-  global lastMidiNote
-  global previousChord
   rootnote = note
-  chordStructure = random.choice(simpleChords)
-  currentChord = [c + note for c in chordStructure]
-  lastMidiNote = note
-  sendToPd(chordStructure) #change from currentChord to chordStructure if relative structure is needed
-  previousChord = currentChord
 
-def parseMidiNote(note):
+def parseBeat(beat):
   global rootnote
-  global lastMidiNote
   global previousChord
-  if rootnote == 0:
-    parseRootNote(note)
-  else:
-    currentChord, chordStructure = buildChord(note)
-    while (abs(min(currentChord)-min(previousChord)) > max(12,abs(lastMidiNote-note))):
-      currentChord, chordStructure = buildChord(note)
-    sendToPd(chordStructure)
-    lastMidiNote = note
-    previousChord = currentChord
-
-def buildChord(note):
-  chordStructure = random.choice(allChords)
-  #Maak omkering
-  for x in range(len(chordStructure)):
-    if chordStructure[x] != 0 and random.random() < 0.1:
-      if chordStructure[x] < 0:
-        chordStructure[x] += 12
-      else:
-        chordStructure[x] -= 12
   
-  chord = [c + note for c in chordStructure]
-  return chord, chordStructure
+  rootchange, chord = generateChord()
+  rootnote += rootchange
+  previousChord = chord
+  sendToPd(rootnote, chord)
 
+def generateChord():
+  rootchange = 0
+  chord = majorChord
+  position = rootnote%12
+
+  print(position)
+
+  x = random.random()
+
+  if previousChord == dom7Chord:
+    print("dom7\n")
+    #After multiple dom7 chords, try to go to back to a major chord
+    if position == 2 and x < 0.9:
+      rootchange = 5
+      chord = dom7Chord
+    elif position == 7 and x < 0.5:
+      rootchange = 5
+      chord = majorChord
+    elif position == 7 and x < 0.9:
+      rootchange = 5
+      chord = dom7Chord
+    elif x < 0.6:
+      rootchange, chord = random.choice([(1,dom7Chord),(2,dom7Chord),(5,dom7Chord),(6,dom7Chord),(9,dom7Chord)])
+    else:
+      rootchange, chord = random.choice([(0,dim7Chord),(9,halfDim7Chord),(1,majorChord),(2,majorChord),(4,majorChord),(5,majorChord),(7,majorChord),(8,majorChord),(11,majorChord)])
+  elif previousChord == majorChord:
+    print("maj\n")
+    if x < 0.7:
+      rootchange = 2
+      chord = dom7Chord
+    elif x < 0.9:
+      rootchange = 5
+      chord = dom7Chord
+    else: 
+      rootchange, chord = random.choice([(6,dom7Chord),(7,dom7Chord),(0,maj7Chord),(9,min7Chord),(0,added6Chord)])
+  elif previousChord == maj7Chord:
+    print("maj7\n")
+    rootchange = 0
+    chord = majorChord
+  elif previousChord == min7Chord:
+    print("min7\n")
+    rootchange = 5
+    chord = majorChord
+  elif previousChord == dim7Chord:
+    print("dim7\n")
+    rootchange = 0
+    chord = dom7Chord
+  elif previousChord == halfDim7Chord:
+    print("halfDim7\n")
+    rootchange = 8
+    chord = dom7Chord
+  elif previousChord == added6Chord:
+    print("maj6\n")
+    rootchange = 0
+    chord = majorChord
+  return rootchange, chord
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
@@ -107,7 +136,7 @@ if __name__ == "__main__":
 
   dispatcher = dispatcher.Dispatcher()
   dispatcher.map("/rootnote", parseInput)
-  dispatcher.map("/midinote", parseInput)
+  dispatcher.map("/beat", parseInput)
 
   server = osc_server.ThreadingOSCUDPServer(
       (args.ip, args.port), dispatcher)
