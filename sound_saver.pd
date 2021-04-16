@@ -1,4 +1,4 @@
-#N canvas 358 31 1019 899 12;
+#N canvas -1102 71 1019 899 12;
 #X msg 702 414 resize \$1;
 #X floatatom 702 386 12 0 0 0 - - -;
 #X msg 778 217 44100;
@@ -108,7 +108,8 @@
 #X floatatom 52 188 5 0 0 0 - - -;
 #X obj 95 187 > 70;
 #X obj 648 718 spigot 1;
-#X obj 507 835 s f_current_py;
+#X obj 491 865 s f_current_py;
+#X obj 550 831 change;
 #X connect 0 0 67 0;
 #X connect 1 0 0 0;
 #X connect 2 0 11 1;
@@ -191,7 +192,7 @@
 #X connect 79 0 98 1;
 #X connect 80 0 98 1;
 #X connect 81 0 88 0;
-#X connect 81 0 99 0;
+#X connect 81 0 100 0;
 #X connect 82 0 75 0;
 #X connect 86 0 87 0;
 #X connect 87 0 78 0;
@@ -202,3 +203,4 @@
 #X connect 94 0 80 0;
 #X connect 97 0 52 0;
 #X connect 98 0 77 1;
+#X connect 100 0 99 0;
